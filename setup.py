@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='deep',
-      version='0.8.1',
+      version='0.9.dev',
       packages = ['deep'],
       author="Fergal Daly",
       author_email="fergal@esatclear.ie",

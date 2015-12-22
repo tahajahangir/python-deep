@@ -166,10 +166,10 @@ class DeepTest(unittest.TestCase):
              E(["abc", "ab", "a"], d.ArrayValues(d.Re("a")), "ArrayValues"),
              N(["abc", "ab", "a"], d.ArrayValues(d.Re("b")), "x[2]", "a".__repr__(), "something matching 'b'", "ArrayValues"),
              E(["abc", "ab", "a"],
-               d.Elements(d.Re("b"), (0, 1)),
+               d.Slice(d.Re("b"), (0, 1)),
                "Slice array"),
              N(["a", "c", "abc"],
-               d.Elements(d.Re("b"), (1, 2)),
+               d.Slice(d.Re("b"), (1, 2)),
                "x[1]",
                "c".__repr__(),
                "something matching 'b'",
@@ -182,10 +182,10 @@ class DeepTest(unittest.TestCase):
                "x['z']", "a".__repr__(), "something matching 'b'",
                "DictValues dict"),
              E({"x" : "abc", "y" : "ab", "z" : "a"},
-               d.Elements(d.Re("b"), ("x", "y")),
+               d.Slice(d.Re("b"), ("x", "y")),
                "Slice dict"),
              N({"x" : "abc", "y" : "c", "z" : "a"},
-               d.Elements(d.Re("b"), ("x", "y")),
+               d.Slice(d.Re("b"), ("x", "y")),
                "x['y']",
                "c".__repr__(),
                "something matching 'b'",
@@ -201,6 +201,18 @@ class DeepTest(unittest.TestCase):
                     N([0,1], set([0, 1]), "x as a set (==)",
                       "instance of <%s 'list'>" % type_str,
                       "instance of <%s 'set'>" % type_str)
+                   ])
+
+    if hasattr(__builtins__, "frozenset"):
+      tests.extend([E(frozenset([1,0]), frozenset([0, 1]), "eqfrozenset"),
+                    N(frozenset([0,1]), frozenset([0, 2]),
+                      "x as a set (==)",
+                      "1 matching element(s), extra: [1], missing: [2]",
+                      "2 matching element(s)",
+                      "not eqfrozenset"),
+                    N([0,1], frozenset([0, 1]), "x as a set (==)",
+                      "instance of <%s 'list'>" % type_str,
+                      "instance of <%s 'frozenset'>" % type_str)
                    ])
 
     # for t in (tests[-1],):

@@ -261,6 +261,8 @@ class Comparison(object):
       return List(item)
     elif t in (set, ):
       return Set(item)
+    elif t in (frozenset, ):
+      return Frozenset(item)
     elif t in (tuple, ):
       return Tuple(item)
     elif t in (dict, ):
@@ -490,6 +492,12 @@ class Set(EqSet):
     return (comp.descend(item, InstanceOf(set)) and
             EqSet.equals(self, item, comp))
 
+class Frozenset(EqSet):
+  """Compare to builtin frozenset item."""
+  def equals(self, item, comp):
+    return (comp.descend(item, InstanceOf(frozenset)) and
+            EqSet.equals(self, item, comp))
+
 class HasKeys(TransformComparator):
   """Compare item.keys()."""
   def __init__(self, value):
@@ -674,9 +682,9 @@ class Re(Comparator):
   def __repr__(self):
     return "%s(%s)" % (self.__class__.__name__, self.orig)
 
-class Elements(Comparator):
+class Slice(Comparator):
   """Compare certain indexed elements of item against the value."""
-  def __init__(self, value, indices=None):
+  def __init__(self, value, indices):
     """
     Arguments:
       value: the value to compare against
@@ -689,9 +697,6 @@ class Elements(Comparator):
     value = self.value
     indices = self.indices
 
-    if not indices:
-      indices = range(len(item))
-      
     for i in indices:
       if not comp.descend(item, IndexedElem(i, value)):
         return False
@@ -707,10 +712,9 @@ class Elements(Comparator):
 class ArrayValues(ValueComparator):
   """ Compare each element of an array to the value """
   def equals(self, item, comp):
-    return comp.descend(item, Elements(self.value, range(0, len(item))))
+    return comp.descend(item, Slice(self.value, range(0, len(item))))
                         
 class DictValues(ValueComparator):
   """ Compare each value in a dictionary to the value """
   def equals(self, item, comp):
-    return comp.descend(item, Elements(self.value, list(item.keys())))
-                        
+    return comp.descend(item, Slice(self.value, list(item.keys())))
