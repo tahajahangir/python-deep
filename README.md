@@ -1,5 +1,7 @@
 ## Flexible comparison of nested python datastrucures and objects.
 
+[![Build Status](https://travis-ci.org/tahajahangir/python-deep.svg)](https://travis-ci.org/tahajahangir/python-deep)
+
 Composable "regular expressions" for data structures.
 
 This module allows easy and flexible deep comparisons of
