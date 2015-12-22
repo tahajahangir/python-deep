@@ -216,7 +216,7 @@ class Comparison(object):
     and if we couldn't find an differences then it really was true.
     """
 
-    if i1 is i2:
+    if i1 is i2 or i1 == i2:
       return True
 
     if not isinstance(i2, Comparator):

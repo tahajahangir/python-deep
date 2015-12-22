@@ -21,6 +21,8 @@
 import re
 import unittest
 
+import mock
+
 import deep as d
 
 E=True
@@ -90,6 +92,7 @@ class DeepTest(unittest.TestCase):
         type_str = 'class'
 
     tests = [E(1, 1, "1 == 1"),
+             E(1, mock.ANY, "1 == mock.ANY"),
              N(1, 2, "x", "1", "2", "1 != 2"),
              E((1,2), (1,2), "tuple diff"),
              N((1,3), (1,2), "x[1]", "3", "2", "tuple diff"),
