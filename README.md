@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/tahajahangir/python-deep.svg)](https://travis-ci.org/tahajahangir/python-deep)
 
+(fork of http://code.google.com/p/python-deep/ by Fergal Daly)
+
 Composable "regular expressions" for data structures.
 
 This module allows easy and flexible deep comparisons of
